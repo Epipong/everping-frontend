@@ -1,19 +1,14 @@
 import { Icon } from '@iconify/react';
 import { Security } from '../devices/devicesList';
-
-const HOURS_DAY = 24;
-const MINUTES_HOUR = 60;
-const SECONDS_MINUTE = 60
+import { isOlderThan30Days } from '../utils/date-operation';
 
 const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
-  const now = Math.floor(Date.now() / 1000);
-  const thirtyDaysInSeconds = 30 * HOURS_DAY * MINUTES_HOUR * SECONDS_MINUTE;
-
-  if (now - lastCheckInDate > thirtyDaysInSeconds) {
+  if (isOlderThan30Days(lastCheckInDate)) {
       return <Icon icon="mdi:clock" color="grey" />;
   }
 
   const icons = [];
+
   if (!security.firewall) {
     icons.push(<Icon icon="mdi:wall" color="red" key="firewall" />);
   }
@@ -26,6 +21,7 @@ const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
   if (icons.length === 0) {
     icons.push(<Icon icon="mdi:shield-check" color="green" key="healthy" />);
   }
+  
   return icons;
 };
 

@@ -47,7 +47,9 @@ const DevicesList = () => {
         setClientId={setClientId}
       />
       <Filter />
-      <TotalDevices />
+      <TotalDevices
+        devices={devices}
+      />
 
       <table>
         <thead>
