@@ -19,6 +19,10 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <select onChange={(event) => setClientId(event.target.value)} value={clientId}>
+        <option value="flash">Flash</option>
+        <option value="thunder">Thunder</option>
+      </select>
       <table>
         <thead>
           <tr>
