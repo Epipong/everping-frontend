@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDevices } from './api/devices';
 import { Device } from './devices/devices';
+import { getSecurityIcons } from './icons/icons';
 
 const App: React.FC = () => {
   const [devices, setDevices] = useState<Device[]>([]);
@@ -29,7 +30,7 @@ const App: React.FC = () => {
           <tbody>
             <tr key={device.id}>
               <td>{device.serialNumber}</td>
-              <td>{device.security.antivirus}</td>
+              <td>{getSecurityIcons(device.security, device.lastCheckInDate)}</td>
             </tr>
           </tbody>
         ))}
