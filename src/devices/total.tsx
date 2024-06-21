@@ -1,5 +1,5 @@
 import { isOlderThan30Days } from "../utils/date-operation";
-import { Device } from "./devicesList"
+import { Device } from "./devices-list"
 
 const TotalDevices = ({
   devices

@@ -1,5 +1,5 @@
 import { getSecurityIcons } from "../icons/icons";
-import { Device } from "./devicesList";
+import { Device } from "./devices-list";
 
 const DeviceItem = ({
   device

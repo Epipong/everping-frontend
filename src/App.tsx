@@ -1,5 +1,5 @@
 import React from 'react';
-import { DevicesList } from './devices/devicesList';
+import { DevicesList } from './devices/devices-list';
 
 const App: React.FC = () => {
   return (

@@ -3,7 +3,7 @@ import { getDevicesById } from "../api/devices";
 import { TotalDevices } from "./total";
 import { SelectId } from "./select";
 import { Filter } from "./filter";
-import { DeviceItem } from "./device";
+import { DeviceItem } from "./device-item";
 
 export type Security = {
   firewall: boolean;
@@ -46,7 +46,11 @@ const DevicesList = () => {
         clientId={clientId}
         setClientId={setClientId}
       />
-      <Filter />
+      
+      <Filter
+        devices={devices}
+      />
+
       <TotalDevices
         devices={devices}
       />

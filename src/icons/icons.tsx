@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Security } from '../devices/devicesList';
+import { Security } from '../devices/devices-list';
 import { isOlderThan30Days } from '../utils/date-operation';
 
 const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
@@ -21,7 +21,7 @@ const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
   if (icons.length === 0) {
     icons.push(<Icon icon="mdi:shield-check" color="green" key="healthy" />);
   }
-  
+
   return icons;
 };
 
