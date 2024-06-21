@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Security } from '../devices/devices';
+import { Security } from '../devices/devicesList';
 
 const HOURS_DAY = 24;
 const MINUTES_HOUR = 60;
