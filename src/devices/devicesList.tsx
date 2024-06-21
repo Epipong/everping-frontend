@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getDevicesById } from "../api/devices";
 import { getSecurityIcons } from "../icons/icons";
+import { TotalDevices } from "./total";
+import { SelectId } from "./select";
+import { Filter } from "./filter";
 
 export type Security = {
   firewall: boolean;
@@ -39,10 +42,12 @@ const DevicesList = () => {
 
   return (
     <div>
-      <select onChange={(event) => setClientId(event.target.value)} value={clientId}>
-        <option value="flash">Flash</option>
-        <option value="thunder">Thunder</option>
-      </select>
+      <SelectId
+        clientId={clientId}
+        setClientId={setClientId}
+      />
+      <Filter />
+      <TotalDevices />
 
       <table>
         <thead>
