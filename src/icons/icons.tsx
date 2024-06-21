@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { Security } from '../devices/devices-list';
-import { isOlderThan30Days } from '../utils/date-operation';
+import { isOlderThan30Days } from '../utils/utils';
 
 const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
   if (isOlderThan30Days(lastCheckInDate)) {

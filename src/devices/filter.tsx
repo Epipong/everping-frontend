@@ -1,83 +1,99 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Device } from "./devices-list";
+import { isHealthy, isOlderThan30Days } from "../utils/utils";
+import { Form } from "react-bootstrap";
 
 export type FilterType = {
   [key: string]: boolean
 };
 
 const filterDevices = ({
-  devices
+  devices,
+  filters,
+  setFilteredDevices
 }: {
-  devices: Device[]
+  devices: Device[],
+  filters: FilterType;
+  setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
 }) => {
-  //
+  let newFilteredDevices = [...devices];
+
+  newFilteredDevices = devices.filter(
+    device =>
+      device.security.firewall === filters.firewall ||
+      device.security.antivirus === filters.antivirus ||
+      device.security.encryption === filters.encryption ||
+      filters.oldCheckIn === isOlderThan30Days(device.lastCheckInDate) ||
+      filters.healthy === isHealthy(device)
+  );
+  setFilteredDevices(newFilteredDevices);
 }
 
 const Filter = ({
-  devices
+  devices,
+  setFilteredDevices
 }: {
-  devices: Device[]
+  devices: Device[];
+  setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
 }) => {
   const [filters, setFilters] = useState<FilterType>({
-    healthy: true,
+    healthy: false,
     oldCheckIn: false,
     firewall: true,
     antivirus: true,
     encryption: true,
   });
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     setFilters(prevFilters => ({ ...prevFilters, [name]: checked }));
   };
-  filterDevices({ devices })
+
+  useEffect(() => {
+    filterDevices({ devices, filters, setFilteredDevices });
+  }, [filters, devices, setFilteredDevices]);
+
   return (
-    <div>
-      <label>
-        <input
-          type="checkbox"
-          name="healthy"
-          checked={filters.healthy}
-          onChange={handleFilterChange}
-        />
-        Healthy Devices
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          name="oldCheckIn"
-          checked={filters.oldCheckIn}
-          onChange={handleFilterChange}
-        />
-        Check-in Date Older Than 30 Days
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          name="firewall"
-          checked={filters.firewall}
-          onChange={handleFilterChange}
-        />
-        Firewall
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          name="antivirus"
-          checked={filters.antivirus}
-          onChange={handleFilterChange}
-        />
-        Antivirus
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          name="encryption"
-          checked={filters.encryption}
-          onChange={handleFilterChange}
-        />
-        Encryption
-      </label>
-    </div>
+    <Form>
+      <Form.Check
+        type="checkbox"
+        name="healthy"
+        label="Healthy Devices"
+        checked={filters.healthy}
+        onChange={handleFilterChange}
+      />
+      <Form.Check
+        type="checkbox"
+        name="oldCheckIn"
+        label="Check-in Date Older Than 30 Days"
+        checked={filters.oldCheckIn}
+        onChange={handleFilterChange}
+      />
+
+      <Form.Check
+        type="checkbox"
+        name="firewall"
+        label="Firewall"
+        checked={filters.firewall}
+        onChange={handleFilterChange}
+      />
+
+      <Form.Check
+        type="checkbox"
+        name="antivirus"
+        label="Antivirus"
+        checked={filters.antivirus}
+        onChange={handleFilterChange}
+      />
+
+      <Form.Check
+        type="checkbox"
+        name="encryption"
+        label="Encryption"
+        checked={filters.encryption}
+        onChange={handleFilterChange}
+      />
+    </Form>
   )
 };
 

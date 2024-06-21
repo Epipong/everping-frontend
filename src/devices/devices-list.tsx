@@ -4,6 +4,7 @@ import { TotalDevices } from "./total";
 import { SelectId } from "./select";
 import { Filter } from "./filter";
 import { DeviceItem } from "./device-item";
+import { Table } from "react-bootstrap";
 
 export type Security = {
   firewall: boolean;
@@ -28,17 +29,19 @@ export type Device = {
 
 const DevicesList = () => {
   const [devices, setDevices] = useState<Device[]>([]);
+  const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
   const [clientId, setClientId] = useState('flash');
 
   useEffect(() => {
     const fetchData = async () => {
       const data: Device[] = await getDevicesById(clientId);
       setDevices(data);
+      setFilteredDevices(filteredDevices);
     }
 
     fetchData()
       .catch(console.error)
-  }, [clientId]);
+  }, [clientId, filteredDevices]);
 
   return (
     <div>
@@ -49,25 +52,26 @@ const DevicesList = () => {
       
       <Filter
         devices={devices}
+        setFilteredDevices={setFilteredDevices}
       />
 
       <TotalDevices
-        devices={devices}
+        devices={filteredDevices}
       />
 
-      <table>
+      <Table>
         <thead>
           <tr>
             <th>Serial Number</th>
             <th>Security Status</th>
           </tr>
         </thead>
-        {devices.map(device => (
+        {filteredDevices.map(device => (
           <DeviceItem
             device={device}
           />
         ))}
-      </table>
+      </Table>
     </div>
   );
 }

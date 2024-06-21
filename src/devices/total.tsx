@@ -1,4 +1,4 @@
-import { isOlderThan30Days } from "../utils/date-operation";
+import { isHealthy, isOlderThan30Days } from "../utils/utils";
 import { Device } from "./devices-list"
 
 const TotalDevices = ({
@@ -7,8 +7,7 @@ const TotalDevices = ({
   devices: Device[]
 }) => {
   const healthyDevices = devices.filter(device => {
-    const { firewall, antivirus, encryption } = device.security;
-    return firewall && antivirus && encryption && !isOlderThan30Days(device.lastCheckInDate);
+    return isHealthy(device) && !isOlderThan30Days(device.lastCheckInDate);
   })
   const healthyPercentage = devices.length > 0 ?
     Math.floor(healthyDevices.length / devices.length * 100):
