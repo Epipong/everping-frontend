@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDevicesById } from "../api/devices";
+import { getAllClientIds, getDevicesById } from "../api/devices";
 import { TotalDevices } from "./total";
 import { SelectId } from "./select";
 import { Filter } from "./filter";
@@ -29,24 +29,36 @@ export type Device = {
 
 const DevicesList = () => {
   const [devices, setDevices] = useState<Device[]>([]);
+  const [optionsClientId, setOptionsClientId] = useState<string[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
-  const [clientId, setClientId] = useState('flash');
+  const [clientId, setClientId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
-      const data: Device[] = await getDevicesById(clientId);
-      setDevices(data);
-      setFilteredDevices(filteredDevices);
+      const clientDevices: Device[] = await getDevicesById(clientId);
+      setDevices(clientDevices);
+      setFilteredDevices(clientDevices);
     }
 
     fetchData()
       .catch(console.error)
-  }, [clientId, filteredDevices]);
+  }, [clientId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const clientIds: string[] = await getAllClientIds();
+      setOptionsClientId(clientIds);
+    }
+
+    fetchData()
+      .catch(console.error)
+  }, [])
 
   return (
     <div>
       <SelectId
         clientId={clientId}
+        optionsClientId={optionsClientId}
         setClientId={setClientId}
       />
       
@@ -59,7 +71,7 @@ const DevicesList = () => {
         devices={filteredDevices}
       />
 
-      <Table>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>Serial Number</th>

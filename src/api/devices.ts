@@ -8,4 +8,9 @@ const getDevicesById = async (clientId: string) => {
   return data;
 }
 
-export { getDevicesById };
+const getAllClientIds = async () => {
+  const { data } = await axios.get(`${url}/client_ids`);
+  return data;
+}
+
+export { getDevicesById, getAllClientIds };

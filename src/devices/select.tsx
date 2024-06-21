@@ -1,15 +1,23 @@
+import { Form } from "react-bootstrap";
+
 const SelectId = ({
   clientId,
-  setClientId
+  setClientId,
+  optionsClientId
 }: {
   clientId: string
   setClientId: React.Dispatch<React.SetStateAction<string>>;
+  optionsClientId: string[];
 }) => {
   return (
-    <select onChange={(event) => setClientId(event.target.value)} value={clientId}>
-      <option value="flash">Flash</option>
-      <option value="thunder">Thunder</option>
-    </select>
+    <Form.Select
+      onChange={(event) => setClientId(event.target.value)}
+      value={clientId}
+      aria-label="Default select example">
+      {optionsClientId.map(option => (
+        <option value={option}>{option}</option>
+      ))}
+    </Form.Select>
   )
 }
 
