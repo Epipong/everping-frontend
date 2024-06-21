@@ -11,7 +11,7 @@ const TotalDevices = ({
     return firewall && antivirus && encryption && !isOlderThan30Days(device.lastCheckInDate);
   })
   const healthyPercentage = devices.length > 0 ?
-    (healthyDevices.length / devices.length * 100) | 1 :
+    Math.floor(healthyDevices.length / devices.length * 100):
     0;
 
   return (

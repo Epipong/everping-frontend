@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getDevicesById } from "../api/devices";
-import { getSecurityIcons } from "../icons/icons";
 import { TotalDevices } from "./total";
 import { SelectId } from "./select";
 import { Filter } from "./filter";
+import { DeviceItem } from "./device";
 
 export type Security = {
   firewall: boolean;
@@ -59,12 +59,9 @@ const DevicesList = () => {
           </tr>
         </thead>
         {devices.map(device => (
-          <tbody>
-            <tr key={device.id}>
-              <td>{device.serialNumber}</td>
-              <td>{getSecurityIcons(device.security, device.lastCheckInDate)}</td>
-            </tr>
-          </tbody>
+          <DeviceItem
+            device={device}
+          />
         ))}
       </table>
     </div>
