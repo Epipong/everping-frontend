@@ -21,7 +21,7 @@ const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
     icons.push(<Icon icon="mdi:antivirus" color="red" key="antivirus" />);
   }
   if (!security.encryption) {
-    icons.push(<Icon icon="fluent-mdl2:encryption" color="red" key="encryption" />);
+    icons.push(<Icon icon="mdi:lock-off" color="red" key="encryption" />);
   }
   if (icons.length === 0) {
     icons.push(<Icon icon="mdi:shield-check" color="green" key="healthy" />);
