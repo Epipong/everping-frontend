@@ -55,7 +55,7 @@ const DevicesList = () => {
   }, [])
 
   return (
-    <div>
+    <>
       <SelectId
         clientId={clientId}
         optionsClientId={optionsClientId}
@@ -84,7 +84,7 @@ const DevicesList = () => {
           />
         ))}
       </Table>
-    </div>
+    </>
   );
 }
 

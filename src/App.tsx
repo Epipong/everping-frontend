@@ -1,6 +1,7 @@
 import React from 'react';
 import { DevicesList } from './devices/devices-list';
-import { ThemeProvider } from 'react-bootstrap';
+import { Container, ThemeProvider } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
   return (
@@ -8,7 +9,9 @@ const App: React.FC = () => {
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
       minBreakpoint="xxs"
     >
-      <DevicesList />
+      <Container>
+        <DevicesList />
+      </Container>
     </ThemeProvider>
   );
 };

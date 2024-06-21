@@ -16,15 +16,13 @@ const filterDevices = ({
   filters: FilterType;
   setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
 }) => {
-  let newFilteredDevices = [...devices];
-
-  newFilteredDevices = devices.filter(
+  let newFilteredDevices = devices.filter(
     device =>
-      device.security.firewall === filters.firewall ||
-      device.security.antivirus === filters.antivirus ||
-      device.security.encryption === filters.encryption ||
-      filters.oldCheckIn === isOlderThan30Days(device.lastCheckInDate) ||
-      filters.healthy === isHealthy(device)
+      filters.healthy === isHealthy(device) || (
+        device.security.firewall === filters.firewall &&
+        device.security.antivirus === filters.antivirus &&
+        device.security.encryption === filters.encryption &&
+        filters.oldCheckIn === isOlderThan30Days(device.lastCheckInDate))
   );
   setFilteredDevices(newFilteredDevices);
 }
@@ -62,6 +60,7 @@ const Filter = ({
         checked={filters.healthy}
         onChange={handleFilterChange}
       />
+
       <Form.Check
         type="checkbox"
         name="oldCheckIn"
