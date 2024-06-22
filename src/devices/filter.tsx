@@ -4,8 +4,27 @@ import { isHealthy, isOlderThan30Days } from "../utils/utils";
 import { Form } from "react-bootstrap";
 
 export type FilterType = {
-  [key: string]: boolean
+  healthy: boolean;
+  oldCheckIn: boolean;
+  firewall: boolean;
+  antivirus: boolean;
+  encryption: boolean;
 };
+
+const isFirewallSelected = (device: Device, filters: FilterType) =>
+  filters.firewall && device.security.firewall;
+
+const isAntivirusSelected = (device: Device, filters: FilterType) =>
+  filters.antivirus && device.security.antivirus;
+
+const isEncryptionSelected = (device: Device, filters: FilterType) =>
+  filters.encryption && device.security.encryption;
+
+const isHealthySelected = (device: Device, filters: FilterType) =>
+  filters.healthy && isHealthy(device);
+
+const isOldCheckInSelected = (device: Device, filters: FilterType) =>
+  filters.oldCheckIn && isOlderThan30Days(device.lastCheckInDate);
 
 const filterDevices = ({
   devices,
@@ -16,27 +35,14 @@ const filterDevices = ({
   filters: FilterType;
   setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
 }) => {
-  let newFilteredDevices = [...devices];
-
-  if (!filters.firewall) {
-    newFilteredDevices = newFilteredDevices.filter(device => !device.security.firewall);
-  }
-
-  if (!filters.antivirus) {
-    newFilteredDevices = newFilteredDevices.filter(device => !device.security.antivirus);
-  }
-
-  if (!filters.encryption) {
-    newFilteredDevices = newFilteredDevices.filter(device => !device.security.encryption);
-  }
-
-  if (!filters.healthy) {
-    newFilteredDevices = newFilteredDevices.filter(device => !isHealthy(device));
-  }
-
-  if (!filters.oldCheckIn) {
-    newFilteredDevices = newFilteredDevices.filter(device => !isOlderThan30Days(device.lastCheckInDate));
-  }
+  let newFilteredDevices = devices.filter(
+    device =>
+      isFirewallSelected(device, filters) ||
+      isAntivirusSelected(device, filters) ||
+      isEncryptionSelected(device, filters) ||
+      isHealthySelected(device, filters) ||
+      isOldCheckInSelected(device, filters)
+  );
 
   setFilteredDevices(newFilteredDevices);
 }

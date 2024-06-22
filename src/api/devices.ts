@@ -1,5 +1,5 @@
 import axios from "axios"
-import * as _ from "dotenv";
+import * as dotenv from "dotenv";
 
 const url = process.env.REACT_APP_API_URL;
 
