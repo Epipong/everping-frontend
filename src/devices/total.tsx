@@ -15,7 +15,7 @@ const TotalDevices = ({
     0;
 
   return (
-    <Table striped bordered hover variant="dark">
+    <Table className='mt-3' striped bordered hover variant="dark">
       <thead>
         <tr>
           <th>Total Devices</th>

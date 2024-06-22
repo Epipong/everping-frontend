@@ -73,7 +73,7 @@ const Filter = ({
   }, [filters, devices, setFilteredDevices]);
 
   return (
-    <Form>
+    <Form className='mt-3'>
       <Form.Check
         type="checkbox"
         name="healthy"
