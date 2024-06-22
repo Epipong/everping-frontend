@@ -1,5 +1,5 @@
 import { ProgressBar, Table } from "react-bootstrap";
-import { isHealthy, isOlderThan30Days } from "../utils/utils";
+import { isHealthy } from "../utils/utils";
 import { Device } from "./devices-list"
 
 const TotalDevices = ({
