@@ -10,20 +10,33 @@ export type FilterType = {
 const filterDevices = ({
   devices,
   filters,
-  setFilteredDevices
+  setFilteredDevices,
+  setFilters
 }: {
   devices: Device[],
   filters: FilterType;
   setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
+  setFilters: React.Dispatch<React.SetStateAction<FilterType>>;
 }) => {
-  let newFilteredDevices = devices.filter(
+  let newFilteredDevices = [...devices];
+
+  newFilteredDevices = devices.filter(
     device =>
-      filters.healthy === isHealthy(device) || (
-        device.security.firewall === filters.firewall &&
-        device.security.antivirus === filters.antivirus &&
-        device.security.encryption === filters.encryption &&
-        filters.oldCheckIn === isOlderThan30Days(device.lastCheckInDate))
+      device.security.firewall === filters.firewall ||
+      device.security.antivirus === filters.antivirus ||
+      device.security.encryption === filters.encryption
   );
+
+  if (filters.oldCheckIn) {
+    newFilteredDevices = newFilteredDevices.filter(
+      device => isOlderThan30Days(device.lastCheckInDate)
+    );
+  } else if (filters.healthy) {
+    newFilteredDevices = devices.filter(
+      device => isHealthy(device)
+    );
+  }
+
   setFilteredDevices(newFilteredDevices);
 }
 
@@ -35,7 +48,7 @@ const Filter = ({
   setFilteredDevices: React.Dispatch<React.SetStateAction<Device[]>>;
 }) => {
   const [filters, setFilters] = useState<FilterType>({
-    healthy: false,
+    healthy: true,
     oldCheckIn: false,
     firewall: true,
     antivirus: true,
@@ -44,11 +57,17 @@ const Filter = ({
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setFilters(prevFilters => ({ ...prevFilters, [name]: checked }));
+    if (name === "oldCheckIn" && checked) {
+      setFilters(prevFilters => ({ ...prevFilters, oldCheckIn: checked, healthy: !checked }));
+    } else if (name === "healthy" && checked) {
+      setFilters(prevFilters => ({ ...prevFilters, healthy: checked, oldCheckIn: !checked }));
+    } else {
+      setFilters(prevFilters => ({ ...prevFilters, [name]: checked }));
+    }
   };
 
   useEffect(() => {
-    filterDevices({ devices, filters, setFilteredDevices });
+    filterDevices({ devices, filters, setFilteredDevices, setFilters });
   }, [filters, devices, setFilteredDevices]);
 
   return (

@@ -12,7 +12,7 @@ const isOlderThan30Days = (lastCheckInDate: number): boolean => {
 
 const isHealthy = (device: Device) => {
   const { firewall, antivirus, encryption } = device.security;
-  return firewall && antivirus && encryption;
+  return firewall && antivirus && encryption && !isOlderThan30Days(device.lastCheckInDate);
 }
 
 export { isOlderThan30Days, isHealthy };
