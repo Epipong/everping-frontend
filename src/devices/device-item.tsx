@@ -10,7 +10,7 @@ const DeviceItem = ({
     <tbody>
       <tr key={device.id}>
         <td>{device.serialNumber}</td>
-        <td>{getSecurityIcons(device.security, device.lastCheckInDate)}</td>
+        <td>{getSecurityIcons(device)}</td>
       </tr>
     </tbody>
   )

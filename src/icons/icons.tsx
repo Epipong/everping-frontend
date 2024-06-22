@@ -1,25 +1,25 @@
 import { Icon } from '@iconify/react';
-import { Security } from '../devices/devices-list';
-import { isOlderThan30Days } from '../utils/utils';
+import { Device } from '../devices/devices-list';
+import { isHealthy, isOlderThan30Days } from '../utils/utils';
 
-const getSecurityIcons = (security: Security, lastCheckInDate: number) => {
-  if (isOlderThan30Days(lastCheckInDate)) {
-      return <Icon icon="mdi:clock" color="grey" />;
+const getSecurityIcons = (device: Device) => {
+  if (isOlderThan30Days(device.lastCheckInDate)) {
+    return <Icon icon="mdi:clock" color="grey" />;
+  } else if (isHealthy(device)) {
+    return <Icon icon="mdi:shield-check" color="green" key="healthy" />;
   }
 
-  const icons = [];
+  const icons: JSX.Element[] = [];
+  const { firewall, antivirus, encryption } = device.security;
 
-  if (!security.firewall) {
+  if (!firewall) {
     icons.push(<Icon icon="mdi:wall" color="red" key="firewall" />);
   }
-  if (!security.antivirus) {
+  if (!antivirus) {
     icons.push(<Icon icon="mdi:antivirus" color="red" key="antivirus" />);
   }
-  if (!security.encryption) {
+  if (!encryption) {
     icons.push(<Icon icon="mdi:lock-off" color="red" key="encryption" />);
-  }
-  if (icons.length === 0) {
-    icons.push(<Icon icon="mdi:shield-check" color="green" key="healthy" />);
   }
 
   return icons;
